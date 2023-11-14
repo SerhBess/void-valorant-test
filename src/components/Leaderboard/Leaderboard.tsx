@@ -3,7 +3,6 @@
 import { Table, Progress, Anchor, Text, Group } from '@mantine/core';
 import classes from './Leaderboard.module.css';
 import { Players } from '@/types/players';
-import { useRouter } from 'next/router';
 import Link from 'next/link';
 
 type Props = {
@@ -12,15 +11,16 @@ type Props = {
 
 const Leaderboard = ({ players }: Props) => {
   
+  const maxRankedRating = Math.max(...players.map((player) => player.rankedRating));
   if (!players) return null
   const rows = players.map((player) => {
-    const maxRankedRating = 1000;
+    
     const positiveRating = (player.rankedRating / maxRankedRating) * 100;
     const negativeRating = ((maxRankedRating - player.rankedRating) / maxRankedRating) * 100;
 
 
     return (
-      <Table.Tr key={player.gameName}>
+      <Table.Tr key={player.leaderboardRank}>
         <Table.Td>{player.leaderboardRank}</Table.Td>
         <Table.Td>
           <Anchor component="button" fz="sm">
